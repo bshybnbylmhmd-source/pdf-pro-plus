@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>PDF Pro+™ - المنصة الاحترافية المتكاملة (44 أداة)</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background: #f4f4f9; margin: 0; }
+        header { display: flex; justify-content: space-between; align-items: center; background: #343a40; color: white; padding: 15px 20px; border-radius: 8px; margin-bottom: 20px; }
+        header a { color: #ff6b6b; text-decoration: none; font-weight: bold; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 15px; }
+        .card { background: white; padding: 20px; border-radius: 10px; border: 1px solid #ddd; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .card h3 { margin-top: 0; color: #333; font-size: 1.1em; }
+        button { background: #007bff; color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer; width: 100%; margin-top: 10px; font-weight: bold; }
+        button:hover { background: #0056b3; }
+        input[type="file"], input[type="number"], input[type="password"], input[type="text"] { margin: 8px 0; width: 100%; box-sizing: border-box; padding: 6px; }
+        .info-box { background: #e9ecef; padding: 8px; border-radius: 4px; margin-top: 8px; font-size: 0.9em; text-align: center; }
+    </style>
+</head>
+<body>
+    <header>
+        <h2>PDF Pro+™ 📄 (محرك الـ 44 أداة الكامل)</h2>
+        <a href="/logout">تسجيل الخروج</a>
+    </header>
+
+    <div class="grid">
+        <!-- 1 -->
+        <div class="card">
+            <h3>📉 ضغط ملف PDF</h3>
+            <input type="file" id="f_comp" accept=".pdf">
+            <button onclick="runTool('compress', 'f_comp')">تنفيذ الضغط</button>
+        </div>
+        <!-- 2 -->
+        <div class="card">
+            <h3>🧩 دمج ملفات PDF</h3>
+            <input type="file" id="f_merge" accept=".pdf" multiple>
+            <button onclick="runMerge()">دمج الملفات</button>
+        </div>
+        <!-- 3 -->
+        <div class="card">
+            <h3>🗑️ حذف صفحة محددة</h3>
+            <input type="file" id="f_del" accept=".pdf">
+            <input type="number" id="del_num" placeholder="رقم الصفحة للحذف" min="1">
+            <button onclick="runDelete()">حذف الصفحة</button>
+        </div>
+        <!-- 4 -->
+        <div class="card">
+            <h3>🔃 تدوير الملف (180°)</h3>
+            <input type="file" id="f_rot180" accept=".pdf">
+            <button onclick="runTool('rotate_all', 'f_rot180')">تدوير 180</button>
+        </div>
+        <!-- 5 -->
+        <div class="card">
+            <h3>🔄 تدوير الملف (90°)</h3>
+            <input type="file" id="f_rot90" accept=".pdf">
+            <button onclick="runTool('rotate_90', 'f_rot90')">تدوير 90</button>
+        </div>
+        <!-- 6 -->
+        <div class="card">
+            <h3>🔄 تدوير الملف (270°)</h3>
+            <input type="file" id="f_rot270" accept=".pdf">
+            <button onclick="runTool('rotate_270', 'f_rot270')">تدوير 270</button>
+        </div>
+        <!-- 7 -->
+        <div class="card">
+            <h3>✂️ استخراج نطاق صفحات</h3>
+            <input type="file" id="f_ext" accept=".pdf">
+            <div style="display: flex; gap: 5px;">
+                <input type="number" id="ext_start" placeholder="من" min="1">
+                <input type="number" id="ext_end" placeholder="إلى" min="1">
+            </div>
+            <button onclick="runExtract()">استخراج النطاق</button>
+        </div>
+        <!-- 8 -->
+        <div class="card">
+            <h3>🔒 تشفير بكلمة مرور</h3>
+            <input type="file" id="f_enc" accept=".pdf">
+            <input type="password" id="enc_pass" placeholder="كلمة المرور الجديدة">
+            <button onclick="runEncrypt()">تشفير الملف</button>
+        </div>
+        <!-- 9 -->
+        <div class="card">
+            <h3>🔄 عكس ترتيب الصفحات</h3>
+            <input type="file" id="f_rev" accept=".pdf">
+            <button onclick="runTool('reverse', 'f_rev')">عكس الصفحات</button>
+        </div>
+        <!-- 10 -->
+        <div class="card">
+            <h3>📝 استخراج النصوص (.txt)</h3>
+            <input type="file" id="f_txt" accept=".pdf">
+            <button onclick="runTool('extract_text', 'f_txt')">استخراج النص</button>
+        </div>
+        <!-- 11 -->
+        <div class="card">
+            <h3>➕ إضافة صفحة فارغة</h3>
+            <input type="file" id="f_blank" accept=".pdf">
+            <button onclick="runTool('add_blank', 'f_blank')">إضافة صفحة بالنهاية</button>
+        </div>
+        <!-- 12 -->
+        <div class="card">
+            <h3>ℹ️ فحص معلومات الملف</h3>
+            <input type="file" id="f_info" accept=".pdf">
+            <button onclick="runInfo()">عرض التفاصيل</button>
+            <div id="info_result" class="info-box" style="display:none;"></div>
+        </div>
+        <!-- 13 -->
+        <div class="card">
+            <h3>📋 تكرار الملف بالكامل</h3>
+            <input type="file" id="f_dup" accept=".pdf">
+            <button onclick="runTool('duplicate', 'f_dup')">مضاعفة الصفحات</button>
+        </div>
+        <!-- 14 -->
+        <div class="card">
+            <h3>📄 استخراج صفحة منفردة</h3>
+            <input type="file" id="f_single" accept=".pdf">
+            <input type="number" id="single_num" placeholder="رقم الصفحة للاستخراج" min="1">
+            <button onclick="runExtractSingle()">استخراج الصفحة</button>
+        </div>
+        <!-- 15 -->
+        <div class="card">
+            <h3>🔓 فك الحماية وإزالة القيود</h3>
+            <input type="file" id="f_unlock" accept=".pdf">
+            <button onclick="runTool('unlock', 'f_unlock')">إزالة القفل والقيود</button>
+        </div>
+        <!-- 16 -->
+        <div class="card">
+            <h3>📦 فصل كل صفحة بملف ZIP</h3>
+            <input type="file" id="f_splitall" accept=".pdf">
+            <button onclick="runTool('split_all', 'f_splitall')">فصل الكل (ZIP)</button>
+        </div>
+        <!-- 17 -->
+        <div class="card">
+            <h3>🖼️ تحويل الصفحات إلى صور</h3>
+            <input type="file" id="f_img" accept=".pdf">
+            <button onclick="runTool('to_images', 'f_img')">تحويل إلى صور (ZIP)</button>
+        </div>
+        <!-- 18 -->
+        <div class="card">
+            <h3>📏 تغيير مقاس الصفحات</h3>
+            <input type="file" id="f_scale" accept=".pdf">
+            <input type="number" id="s_factor" placeholder="معامل الحجم (مثلاً 0.5)" step="0.1">
+            <button onclick="runScale()">تغيير الحجم</button>
+        </div>
+        <!-- 19 -->
+        <div class="card">
+            <h3>✂️ قص حواف الصفحات (Crop)</h3>
+            <input type="file" id="f_crop" accept=".pdf">
+            <button onclick="runTool('crop', 'f_crop')">قص الحواف</button>
+        </div>
+        <!-- 20 -->
+        <div class="card">
+            <h3>🛡️ إضافة علامة مائية</h3>
+            <input type="file" id="f_wm" accept=".pdf">
+            <button onclick="runTool('watermark', 'f_wm')">تطبيق العلامة</button>
+        </div>
+        <!-- 21 -->
+        <div class="card">
+            <h3>🖼️➡️📄 تحويل الصور إلى PDF</h3>
+            <input type="file" id="f_img2pdf" accept="image/*" multiple>
+            <button onclick="runImagesToPdf()">تحويل الصور لملف PDF</button>
+        </div>
+        <!-- 22 -->
+        <div class="card">
+            <h3>📥 استخراج الصور من الـ PDF</h3>
+            <input type="file" id="f_extimg" accept=".pdf">
+            <button onclick="runTool('extract_images', 'f_extimg')">استخراج الصور (ZIP)</button>
+        </div>
+        <!-- 23 -->
+        <div class="card">
+            <h3>🔄 إعادة ترتيب الصفحات</h3>
+            <input type="file" id="f_reorder" accept=".pdf">
+            <input type="text" id="reorder_seq" placeholder="الترتيب (مثال: 3,1,2,4)">
+            <button onclick="runReorder()">تطبيق الترتيب الجديد</button>
+        </div>
+        <!-- 24 -->
+        <div class="card">
+            <h3>✂️ فصل الملف إلى نصفين</h3>
+            <input type="file" id="f_splithalf" accept=".pdf">
+            <button onclick="runTool('split_half', 'f_splithalf')">فصل إلى نصفين (ZIP)</button>
+        </div>
+        <!-- 25 -->
+        <div class="card">
+            <h3>🧹 تنظيف الملف وإزالة الفارغ</h3>
+            <input type="file" id="f_clean" accept=".pdf">
+            <button onclick="runTool('clean', 'f_clean')">تنظيف الصفحات</button>
+        </div>
+        <!-- 26 -->
+        <div class="card">
+            <h3>📑 مضاعفة كل صفحة مرتين</h3>
+            <input type="file" id="f_dup_pages" accept=".pdf">
+            <button onclick="runTool('duplicate_pages', 'f_dup_pages')">مضاعفة الصفحات</button>
+        </div>
+        <!-- 27 -->
+        <div class="card">
+            <h3>📉 ضغط الصور الداخلية</h3>
+            <input type="file" id="f_comp_img" accept=".pdf">
+            <button onclick="runTool('compress_images', 'f_comp_img')">ضغط الصور</button>
+        </div>
+        <!-- 28 -->
+        <div class="card">
+            <h3>🔗 استخراج الروابط (.txt)</h3>
+            <input type="file" id="f_urls" accept=".pdf">
+            <button onclick="runTool('extract_urls', 'f_urls')">استخراج الروابط</button>
+        </div>
+        <!-- 29 -->
+        <div class="card">
+            <h3>🗂️ دمج صفحتين بصفحة (2-in-1)</h3>
+            <input type="file" id="f_nup" accept=".pdf">
+            <button onclick="runTool('n_up', 'f_nup')">تنسيق المحاضرات</button>
+        </div>
+        <!-- 30 -->
+        <div class="card">
+            <h3>🕒 ختم الوقت والتاريخ</h3>
+            <input type="file" id="f_time" accept=".pdf">
+            <button onclick="runTool('timestamp', 'f_time')">ختم المستند</button>
+        </div>
+        <!-- 31 -->
+        <div class="card">
+            <h3>📊 استخراج الجداول (.txt)</h3>
+            <input type="file" id="f_tables" accept=".pdf">
+            <button onclick="runTool('extract_tables', 'f_tables')">استخراج الجداول</button>
+        </div>
+        <!-- 32 -->
+        <div class="card">
+            <h3>⚡ تحسين وضغط البنية (Optimize)</h3>
+            <input type="file" id="f_opt" accept=".pdf">
+            <button onclick="runTool('optimize', 'f_opt')">تحسين البنية</button>
+        </div>
+        <!-- 33 -->
+        <div class="card">
+            <h3>⚖️ مقارنة ملفين PDF</h3>
+            <input type="file" id="f_comp_files" accept=".pdf" multiple>
+            <button onclick="runCompare()">مقارنة الملفين</button>
+        </div>
+        <!-- 34 -->
+        <div class="card">
+            <h3>🔁 تكرار نطاق صفحات محدد</h3>
+            <input type="file" id="f_duprange" accept=".pdf">
+            <div style="display: flex; gap: 5px;">
+                <input type="number" id="dup_start" placeholder="من" min="1">
+                <input type="number" id="dup_end" placeholder="إلى" min="1">
+            </div>
+            <button onclick="runDuplicateRange()">تكرار النطاق</button>
+        </div>
+        <!-- 35 -->
+        <div class="card">
+            <h3>📋 استخراج حقول النماذج</h3>
+            <input type="file" id="f_fields" accept=".pdf">
+            <button onclick="runTool('extract_fields', 'f_fields')">استخراج النماذج</button>
+        </div>
+        <!-- 36 -->
+        <div class="card">
+            <h3>📦 تقسيم الملف لكتل (Batch ZIP)</h3>
+            <input type="file" id="f_splitbatch" accept=".pdf">
+            <input type="number" id="batch_size_val" placeholder="عدد الصفحات بكل ملف" min="1" value="5">
+            <button onclick="runSplitBatch()">تقسيم بكتل</button>
+        </div>
+        <!-- 37 -->
+        <div class="card">
+            <h3>🛡️ تنقيح وإخفاء البيانات</h3>
+            <input type="file" id="f_redact" accept=".pdf">
+            <button onclick="runTool('redact', 'f_redact')">تنقيح المستند</button>
+        </div>
+        <!-- 38 -->
+        <div class="card">
+            <h3>🔧 إصلاح وتصحيح الملف</h3>
+            <input type="file" id="f_repair" accept=".pdf">
+            <button onclick="runTool('repair', 'f_repair')">إصلاح الملف</button>
+        </div>
+        <!-- 39 -->
+        <div class="card">
+            <h3>🧹 إزالة بيانات الميتا والناشر</h3>
+            <input type="file" id="f_meta" accept=".pdf">
+            <button onclick="runTool('strip_metadata', 'f_meta')">إزالة الميتا</button>
+        </div>
+        <!-- 40 -->
+        <div class="card">
+            <h3>🔎 مقارنة محتوى النصوص</h3>
+            <input type="file" id="f_comptxt" accept=".pdf" multiple>
+            <button onclick="runCompareText()">مقارنة النصوص</button>
+        </div>
+        <!-- 41 -->
+        <div class="card">
+            <h3>🔄 تدوير صفحة محددة فقط</h3>
+            <input type="file" id="f_rot_single" accept=".pdf">
+            <div style="display: flex; gap: 5px;">
+                <input type="number" id="rot_page_num" placeholder="الصفحة" min="1">
+                <input type="number" id="rot_angle_val" placeholder="الزاوية" value="90">
+            </div>
+            <button onclick="runRotateSingle()">تدوير الصفحة</button>
+        </div>
+        <!-- 42 -->
+        <div class="card">
+            <h3>✍️ فحص التوقيعات الرقمية</h3>
+            <input type="file" id="f_sig" accept=".pdf">
+            <button onclick="runTool('signatures', 'f_sig')">فحص التوقيعات</button>
+        </div>
+        <!-- 43 -->
+        <div class="card">
+            <h3>📐 إضافة هوامش بيضاء للملف</h3>
+            <input type="file" id="f_margins" accept=".pdf">
+            <button onclick="runTool('margins', 'f_margins')">إضافة الهوامش</button>
+        </div>
+        <!-- 44 -->
+        <div class="card">
+            <h3>📊 حساب عدد الكلمات الكلي</h3>
+            <input type="file" id="f_words" accept=".pdf">
+            <button onclick="runTool('word_count', 'f_words')">حساب الكلمات</button>
+        </div>
+    </div>
+
+    <script>
+        function runTool(tool, id) {
+            let file = document.getElementById(id).files[0];
+            if(!file) { alert('الرجاء اختيار ملف أولاً'); return; }
+            let fd = new FormData(); fd.append('file', file);
+            fetch('/process/' + tool, {method: 'POST', body: fd})
+            .then(r => r.ok ? r.blob() : alert('حدث خطأ'))
+            .then(b => {
+                if(!b) return;
+                let a = document.createElement('a'); a.href = URL.createObjectURL(b);
+                let ext = (['split_all', 'to_images', 'extract_images', 'split_half', 'split_batch'].includes(tool)) ? '.zip' : '_result.pdf';
+                if(['extract_text', 'extract_urls', 'extract_tables', 'compare', 'extract_fields', 'compare_text', 'signatures', 'word_count'].includes(tool)) ext = '.txt';
+                a.download = tool + ext; a.click();
+            });
+        }
+
+        function runCompareText() {
+            let files = document.getElementById('f_comptxt').files;
+            if(files.length < 2) { alert('اختر ملفين للمقارنة النصية'); return; }
+            let fd = new FormData();
+            for(let f of files) fd.append('file', f);
+            fetch('/process/compare_text', {method: 'POST', body: fd})
+            .then(r => r.blob()).then(b => {
+                let a = document.createElement('a'); a.href = URL.createObjectURL(b);
+                a.download = 'text_comparison.txt'; a.click();
+            });
+        }
+
+        function runRotateSingle() {
+            let file = document.getElementById('f_rot_single').files[0];
+            let pageNum = document.getElementById('rot_page_num').value;
+            let angle = document.getElementById('rot_angle_val').value;
+            if(!file || !pageNum) { alert('الرجاء اختيار الملف ورقم الصفحة'); return; }
+            let fd = new FormData(); fd.append('file', file); fd.append('page_num', pageNum); fd.append('angle', angle);
+            fetch('/process/rotate_single', {method: 'POST', body: fd})
+            .then(r => r.blob()).then(b => {
+                let a = document.createElement('a'); a.href = URL.createObjectURL(b);
+                a.download = 'rotated_single_page.pdf'; a.click();
+            });
+        }
+
+        function runSplitBatch() {
+            let file = document.getElementById('f_splitbatch').files[0];
+            let size = document.getElementById('batch_size_val').value;
+            if(!file || !size) { alert('الرجاء اختيار الملف وتحديد حجم الكتلة'); return; }
+            let fd = new FormData(); fd.append('file', file); fd.append('batch_size', size);
+            fetch('/process/split_batch', {method: 'POST', body: fd})
+            .then(r => r.blob()).then(b => {
+                let a = document.createElement('a'); a.href = URL.createObjectURL(b);
+                a.download = 'split_batches.zip'; a.click();
+            });
+        }
+
+        function runMerge() {
+            let files = document.getElementById('f_merge').files;
+            if(files.length < 2) { alert('اختر ملفين على الأقل للدمج'); return; }
+            let fd = new FormData();
+            for(let f of files) fd.append('file', f);
+            fetch('/process/merge', {method: 'POST', body: fd})
+            .then(r => r.blob()).then(b => {
+                let a = document.createElement('a'); a.href = URL.createObjectURL(b);
+                a.download = 'merged.pdf'; a.click();
+            });
+        }
+
+        function runCompare() {
+            let files = document.getElementById('f_comp_files').files;
+            if(files.length < 2) { alert('اختر ملفين للمقارنة'); return; }
+            let fd = new FormData();
+            for(let f of files) fd.append('file', f);
+            fetch('/process/compare', {method: 'POST', body: fd})
+            .then(r => r.blob()).then(b => {
+                let a = document.createElement('a'); a.href = URL.createObjectURL(b);
+                a.download = 'comparison_result.txt'; a.click();
+            });
+        }
+
+        function runDuplicateRange() {
+            let file = document.getElementById('f_duprange').files[0];
+            let start = document.getElementById('dup_start').value;
+            let end = document.getElementById('dup_end').value;
+            if(!file || !start || !end) { alert('الرجاء تعبئة الحقول كاملة'); return; }
+            let fd = new FormData(); fd.append('file', file); fd.append('start', start); fd.append('end', end);
+            fetch('/process/duplicate_range', {method: 'POST', body: fd})
+            .then(r => r.blob()).then(b => {
+                let a = document.createElement('a'); a.href = URL.createObjectURL(b);
+                a.download = 'duplicated_range.pdf'; a.click();
+            });
+        }
+
+        function runDelete() {
+            let file = document.getElementById('f_del').files[0];
+            let num = document.getElementById('del_num').value;
+            if(!file || !num) { alert('الرجاء اختيار الملف ورقم الصفحة'); return; }
+            let fd = new FormData(); fd.append('file', file); fd.append('page_num', num);
+            fetch('/process/delete_page', {method: 'POST', body: fd})
+            .then(r => r.blob()).then(b => {
+                let a = document.createElement('a'); a.href = URL.createObjectURL(b);
+                a.download = 'page_deleted.pdf'; a.click();
+            });
+        }
+
+        function runExtract() {
+            let file = document.getElementById('f_ext').files[0];
+            let start = document.getElementById('ext_start').value;
+            let end = document.getElementById('ext_end').value;
+            if(!file || !start || !end) { alert('الرجاء تعبئة الحقول كاملة'); return; }
+            let fd = new FormData(); fd.append('file', file); fd.append('start', start); fd.append('end', end);
+            fetch('/process/extract_range', {method: 'POST', body: fd})
+            .then(r => r.blob()).then(b => {
+                let a = document.createElement('a'); a.href = URL.createObjectURL(b);
+                a.download = 'extracted_pages.pdf'; a.click();
+            });
+        }
+
+        function runEncrypt() {
+            let file = document.getElementById('f_enc').files[0];
+            let pass = document.getElementById('enc_pass').value;
+            if(!file || !pass) { alert('الرجاء اختيار الملف وكلمة المرور'); return; }
+            let fd = new FormData(); fd.append('file', file); fd.append('password', pass);
+            fetch('/process/encrypt', {method: 'POST', body: fd})
+            .then(r => r.blob()).then(b => {
+                let a = document.createElement('a'); a.href = URL.createObjectURL(b);
+                a.download = 'encrypted.pdf'; a.click();
+            });
+        }
+
+        function runExtractSingle() {
+            let file = document.getElementById('f_single').files[0];
+            let num = document.getElementById('single_num').value;
+            if(!file || !num) { alert('الرجاء اختيار الملف ورقم الصفحة'); return; }
+            let fd = new FormData(); fd.append('file', file); fd.append('page_num', num);
+            fetch('/process/extract_single', {method: 'POST', body: fd})
+            .then(r => r.blob()).then(b => {
+                let a = document.createElement('a'); a.href = URL.createObjectURL(b);
+                a.download = 'single_page.pdf'; a.click();
+            });
+        }
+
+        function runScale() {
+            let file = document.getElementById('f_scale').files[0];
+            let factor = document.getElementById('s_factor').value;
+            if(!file || !factor) { alert('الرجاء اختيار الملف وتحديد المعامل'); return; }
+            let fd = new FormData(); fd.append('file', file); fd.append('factor', factor);
+            fetch('/process/scale', {method: 'POST', body: fd})
+            .then(r => r.blob()).then(b => {
+                let a = document.createElement('a'); a.href = URL.createObjectURL(b);
+                a.download = 'scaled.pdf'; a.click();
+            });
+        }
+
+        function runImagesToPdf() {
+            let files = document.getElementById('f_img2pdf').files;
+            if(files.length === 0) { alert('الرجاء اختيار صور أولاً'); return; }
+            let fd = new FormData();
+            for(let f of files) fd.append('file', f);
+            fetch('/process/images_to_pdf', {method: 'POST', body: fd})
+            .then(r => r.blob()).then(b => {
+                let a = document.createElement('a'); a.href = URL.createObjectURL(b);
+                a.download = 'images_converted.pdf'; a.click();
+            });
+        }
+
+        function runReorder() {
+            let file = document.getElementById('f_reorder').files[0];
+            let order = document.getElementById('reorder_seq').value;
+            if(!file || !order) { alert('الرجاء اختيار الملف وتحديد الترتيب'); return; }
+            let fd = new FormData(); fd.append('file', file); fd.append('order', order);
+            fetch('/process/reorder', {method: 'POST', body: fd})
+            .then(r => r.blob()).then(b => {
+                let a = document.createElement('a'); a.href = URL.createObjectURL(b);
+                a.download = 'reordered.pdf'; a.click();
+            });
+        }
+
+        function runInfo() {
+            let file = document.getElementById('f_info').files[0];
+            if(!file) { alert('الرجاء اختيار ملف أولاً'); return; }
+            let fd = new FormData(); fd.append('file', file);
+            fetch('/process/info', {method: 'POST', body: fd})
+            .then(r => r.json()).then(data => {
+                let box = document.getElementById('info_result');
+                box.style.display = 'block';
+                box.innerHTML = `عدد الصفحات: ${data.pages_count} <br> محمي؟ ${data.is_encrypted ? 'نعم' : 'لا'}`;
+            });
+        }
+    </script>
+
+<footer style="text-align: center; padding: 20px; margin-top: 40px; background-color: #f8f9fa; border-top: 1px solid #dee2e6; color: #6c757d;">
+    <p>جميع الحقوق محفوظة © 2026 | مالك الموقع: <strong>صهيب</strong></p>
+    <p>
+        <a href="/privacy" style="color: #007bff; text-decoration: none; margin: 0 10px;">سياسة الخصوصية</a> | 
+        <a href="/terms" style="color: #007bff; text-decoration: none; margin: 0 10px;">شروط الاستخدام</a> | 
+        <span>📊 الزوار: {{ visit_count }}</span>
+    </p>
+</footer>
+
+<!-- زر الوضع الليلي -->
+<button onclick="toggleDarkMode()" style="position: fixed; bottom: 20px; left: 20px; z-index: 9999; background: #333; color: #fff; border: none; border-radius: 50px; padding: 10px 18px; cursor: pointer; font-size: 14px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">🌙 الوضع الليلي</button>
+
+<style>
+    body.dark-mode { background-color: #121212 !important; color: #e0e0e0 !important; }
+    body.dark-mode div, body.dark-mode section, body.dark-mode header, body.dark-mode footer { background-color: #1e1e1e !important; color: #e0e0e0 !important; border-color: #333 !important; }
+    body.dark-mode input, body.dark-mode select, body.dark-mode button:not([onclick*="toggleDarkMode"]) { background-color: #2c2c2c !important; color: #fff !important; border-color: #444 !important; }
+</style>
+
+<script>
+    function toggleDarkMode() {
+        document.body.classList.toggle("dark-mode");
+        localStorage.setItem("theme", document.body.classList.contains("dark-mode") ? "dark" : "light");
+    }
+    if (localStorage.getItem("theme") === "dark") {
+        document.body.classList.add("dark-mode");
+    }
+</script>
+</body>
+
+
+</html>
