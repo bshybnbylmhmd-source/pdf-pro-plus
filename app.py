@@ -37,6 +37,7 @@ TEMPLATE = """
         <div class="card"><h3>استخراج نطاق صفحات</h3><form action="/process" method="POST" enctype="multipart/form-data"><input type="hidden" name="tool" value="extract_range"><input type="file" name="pdf" required><input type="number" name="start" placeholder="من صفحة" required><input type="number" name="end" placeholder="إلى صفحة" required><button>استخراج النطاق</button></form></div>
         <div class="card"><h3>استخراج الصفحة الأولى</h3><form action="/process" method="POST" enctype="multipart/form-data"><input type="hidden" name="tool" value="split_first"><input type="file" name="pdf" required><button>استخراج الصفحة الأولى</button></form></div>
         <div class="card"><h3>تعديل عنوان الملف (Metadata)</h3><form action="/process" method="POST" enctype="multipart/form-data"><input type="hidden" name="tool" value="metadata"><input type="file" name="pdf" required><input type="text" name="title" placeholder="العنوان الجديد" required><button>تعديل العنوان</button></form></div>
+        <div class="card"><h3>تحسين وتنظيف الملف</h3><form action="/process" method="POST" enctype="multipart/form-data"><input type="hidden" name="tool" value="compress_lite"><input type="file" name="pdf" required><button>تحسين الملف</button></form></div>
         <div class="card"><h3>استخراج النصوص (.txt)</h3><form action="/process" method="POST" enctype="multipart/form-data"><input type="hidden" name="tool" value="text"><input type="file" name="pdf" required><button>استخراج النص</button></form></div>
     </div>
 </body>
