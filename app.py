@@ -4,7 +4,7 @@ from PyPDF2 import PdfMerger, PdfReader, PdfWriter
 
 app = Flask(__name__)
 
-FULL_GRID_TEMPLATE = """
+ALL_44_TEMPLATE = """
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -13,7 +13,7 @@ FULL_GRID_TEMPLATE = """
     <title>PDF Pro+™ 📄 (محرك الـ 44 أداة الكامل)</title>
     <style>
         body { font-family: Tahoma, sans-serif; background-color: #f4f6f9; color: #333; margin: 0; padding: 10px; }
-        .container { max-width: 1200px; margin: 0 auto; background: #ffffff; padding: 15px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
+        .container { max-width: 1300px; margin: 0 auto; background: #ffffff; padding: 15px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
         .header-bar { display: flex; justify-content: space-between; align-items: center; background: #2c3e50; color: white; padding: 10px 15px; border-radius: 6px; margin-bottom: 15px; font-size: 14px; }
         .header-bar a { color: #e74c3c; text-decoration: none; font-weight: bold; }
         
@@ -95,7 +95,7 @@ FULL_GRID_TEMPLATE = """
 
 @app.route('/')
 def index():
-    return render_template_string(FULL_GRID_TEMPLATE)
+    return render_template_string(ALL_44_TEMPLATE)
 
 @app.route('/merge', methods=['POST'])
 def merge_pdfs():
