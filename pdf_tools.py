@@ -38,6 +38,12 @@ def process_pdf_tool(tool, request_form, request_files, upload_folder):
         for page in reader.pages: writer.add_page(page)
         writer.encrypt(pwd)
         out_name = "encrypted.pdf"
+    elif tool == 'decrypt':
+        pwd = request_form.get('password', '1234')
+        if reader.is_encrypted:
+            reader.decrypt(pwd)
+        for page in reader.pages: writer.add_page(page)
+        out_name = "decrypted.pdf"
     elif tool == 'delete':
         del_page = int(request_form.get('page', 1)) - 1
         for idx, page in enumerate(reader.pages):
@@ -54,10 +60,14 @@ def process_pdf_tool(tool, request_form, request_files, upload_folder):
             writer.add_page(reader.pages[idx])
         out_name = "extracted_range.pdf"
     elif tool == 'split_first':
-        # استخراج الصفحة الأولى فقط كملف مستقل
         if len(reader.pages) > 0:
             writer.add_page(reader.pages[0])
         out_name = "split_page_1.pdf"
+    elif tool == 'metadata':
+        title = request_form.get('title', 'PDF Pro+ Document')
+        for page in reader.pages: writer.add_page(page)
+        writer.add_metadata({'/Title': title})
+        out_name = "metadata_updated.pdf"
     elif tool == 'text':
         text_content = ""
         for page in reader.pages:
