@@ -11,20 +11,30 @@ TEMPLATE = """
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>PDF Pro+™ 📄 - لوحة الأدوات</title>
+    <title>PDF Pro+™ 📄 - المنصة الشاملة</title>
     <style>
         body { font-family: Tahoma, sans-serif; background-color: #f0f3f6; padding: 10px; margin: 0; }
         h1 { text-align: center; color: #2c3e50; font-size: 18px; }
+        nav { text-align: center; margin-bottom: 15px; }
+        nav a { margin: 0 10px; text-decoration: none; color: #16a085; font-weight: bold; font-size: 12px; }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
         .card { background: #fff; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
         h3 { font-size: 12px; margin-top: 0; color: #2c3e50; }
         input[type="file"], input[type="text"], input[type="number"] { width: 95%; padding: 5px; margin: 5px 0; font-size: 10px; border: 1px solid #ccc; border-radius: 4px; }
         button { background: #1abc9c; color: white; border: none; padding: 6px; width: 100%; cursor: pointer; border-radius: 4px; font-weight: bold; font-size: 11px; }
         button:hover { background: #16a085; }
+        .page-content { background: #fff; padding: 20px; border-radius: 8px; max-width: 600px; margin: 20px auto; font-size: 13px; line-height: 1.6; color: #333; }
+        footer { text-align: center; margin-top: 20px; font-size: 10px; color: #7f8c8d; }
     </style>
 </head>
 <body>
     <h1>PDF Pro+™ 📄 - مالك الموقع: صهيب</h1>
+    <nav>
+        <a href="/">الرئيسية والأدوات</a> | 
+        <a href="/privacy">سياسة الخصوصية</a> | 
+        <a href="/about">من نحن</a>
+    </nav>
+
     <div class="grid">
         <div class="card"><h3>دمج PDF</h3><form action="/process" method="POST" enctype="multipart/form-data"><input type="hidden" name="tool" value="merge"><input type="file" name="pdfs" multiple required><button>دمج الملفات</button></form></div>
         <div class="card"><h3>تدوير 180°</h3><form action="/process" method="POST" enctype="multipart/form-data"><input type="hidden" name="tool" value="rotate180"><input type="file" name="pdf" required><button>تدوير 180</button></form></div>
@@ -40,6 +50,57 @@ TEMPLATE = """
         <div class="card"><h3>تحسين وتنظيف الملف</h3><form action="/process" method="POST" enctype="multipart/form-data"><input type="hidden" name="tool" value="compress_lite"><input type="file" name="pdf" required><button>تحسين الملف</button></form></div>
         <div class="card"><h3>استخراج النصوص (.txt)</h3><form action="/process" method="POST" enctype="multipart/form-data"><input type="hidden" name="tool" value="text"><input type="file" name="pdf" required><button>استخراج النص</button></form></div>
     </div>
+    <footer>جميع الحقوق محفوظة © 2026 - صهيب</footer>
+</body>
+</html>
+"""
+
+PRIVACY_TEMPLATE = """
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>سياسة الخصوصية - PDF Pro+</title>
+    <style>
+        body { font-family: Tahoma, sans-serif; background-color: #f0f3f6; padding: 20px; margin: 0; }
+        .box { background: #fff; padding: 25px; border-radius: 8px; max-width: 700px; margin: auto; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        h1 { color: #2c3e50; font-size: 20px; }
+        p, li { font-size: 13px; color: #444; line-height: 1.8; }
+        a { color: #16a085; text-decoration: none; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h1>سياسة الخصوصية</h1>
+        <p>نحن في منصة <strong>PDF Pro+</strong> نولي اهتماماً بالغاً لخصوصية زوارنا. لا يتم الاحتفاظ بملفاتك الشخصية أو ملفات الـ PDF المرفوعة على خوادمنا لفترات طويلة، حيث يتم حذفها تلقائياً بعد معالجتها وحفظها على جهازك.</p>
+        <p>كما أننا قد نستعين بشركات إعلانية طرف ثالث (مثل Google AdSense) لعرض الإعلانات، والتي قد تستخدم ملفات تعريف الارتباط (Cookies) لتحسين تجربة المستخدم.</p>
+        <p><a href="/">← العودة إلى رئيسية الأدوات</a></p>
+    </div>
+</body>
+</html>
+"""
+
+ABOUT_TEMPLATE = """
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>من نحن - PDF Pro+</title>
+    <style>
+        body { font-family: Tahoma, sans-serif; background-color: #f0f3f6; padding: 20px; margin: 0; }
+        .box { background: #fff; padding: 25px; border-radius: 8px; max-width: 700px; margin: auto; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        h1 { color: #2c3e50; font-size: 20px; }
+        p { font-size: 13px; color: #444; line-height: 1.8; }
+        a { color: #16a085; text-decoration: none; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h1>من نحن</h1>
+        <p>منصة <strong>PDF Pro+</strong> هي أداة ويب متكاملة ومصممة لمساعدة المستخدمين على إدارة، تعديل، ومعالجة ملفات الـ PDF بكل سهولة وسرعة وبدون الحاجة لبرامج معقدة.</p>
+        <p>تم تطوير هذه المنصة بكل إتقان بواسطة المطور <strong>صهيب</strong>.</p>
+        <p><a href="/">← العودة إلى رئيسية الأدوات</a></p>
+    </div>
 </body>
 </html>
 """
@@ -47,6 +108,14 @@ TEMPLATE = """
 @app.route('/')
 def index():
     return TEMPLATE
+
+@app.route('/privacy')
+def privacy():
+    return PRIVACY_TEMPLATE
+
+@app.route('/about')
+def about():
+    return ABOUT_TEMPLATE
 
 @app.route('/process', methods=['POST'])
 def process():
