@@ -2,7 +2,6 @@ import os
 from PyPDF2 import PdfMerger, PdfReader, PdfWriter
 
 def process_pdf_tool(tool, request_form, request_files, upload_folder):
-    # دالة الدمج
     if tool == 'merge':
         files = request_files.getlist('pdfs')
         merger = PdfMerger()
@@ -14,7 +13,6 @@ def process_pdf_tool(tool, request_form, request_files, upload_folder):
         merger.close()
         return out_name
     
-    # باقي الأدوات
     file = request_files.get('pdf')
     if not file: raise ValueError("الرجاء رفع ملف PDF")
     reader = PdfReader(file)
@@ -30,6 +28,24 @@ def process_pdf_tool(tool, request_form, request_files, upload_folder):
         for page in reader.pages: writer.add_page(page)
         writer.encrypt(pwd)
         out_name = "encrypted.pdf"
+    elif tool == 'delete':
+        del_page = int(request_form.get('page', 1)) - 1
+        for idx, page in enumerate(reader.pages):
+            if idx != del_page: writer.add_page(page)
+        out_name = "page_deleted.pdf"
+    elif tool == 'reverse':
+        for page in reversed(reader.pages):
+            writer.add_page(page)
+        out_name = "reversed.pdf"
+    elif tool == 'text':
+        text_content = ""
+        for page in reader.pages:
+            text_content += page.extract_text() + "\n--- صفحة جديدة ---\n"
+        out_name = "extracted_text.txt"
+        out_path = os.path.join(upload_folder, out_name)
+        with open(out_path, "w", encoding="utf-8") as f:
+            f.write(text_content)
+        return out_name
     else:
         for page in reader.pages: writer.add_page(page)
         out_name = "processed.pdf"
