@@ -23,7 +23,6 @@ TEMPLATE = """
         input[type="file"], input[type="text"], input[type="number"] { width: 95%; padding: 5px; margin: 5px 0; font-size: 10px; border: 1px solid #ccc; border-radius: 4px; }
         button { background: #1abc9c; color: white; border: none; padding: 6px; width: 100%; cursor: pointer; border-radius: 4px; font-weight: bold; font-size: 11px; }
         button:hover { background: #16a085; }
-        .page-content { background: #fff; padding: 20px; border-radius: 8px; max-width: 600px; margin: 20px auto; font-size: 13px; line-height: 1.6; color: #333; }
         footer { text-align: center; margin-top: 20px; font-size: 10px; color: #7f8c8d; }
     </style>
 </head>
@@ -43,6 +42,7 @@ TEMPLATE = """
         <div class="card"><h3>تشفير بكلمة مرور</h3><form action="/process" method="POST" enctype="multipart/form-data"><input type="hidden" name="tool" value="encrypt"><input type="file" name="pdf" required><input type="text" name="password" placeholder="كلمة المرور" required><button>تشفير الملف</button></form></div>
         <div class="card"><h3>إزالة تشفير PDF</h3><form action="/process" method="POST" enctype="multipart/form-data"><input type="hidden" name="tool" value="decrypt"><input type="file" name="pdf" required><input type="text" name="password" placeholder="كلمة المرور الحالية" required><button>إزالة التشفير</button></form></div>
         <div class="card"><h3>حذف صفحة محددة</h3><form action="/process" method="POST" enctype="multipart/form-data"><input type="hidden" name="tool" value="delete"><input type="file" name="pdf" required><input type="number" name="page" placeholder="رقم الصفحة" required><button>حذف الصفحة</button></form></div>
+        <div class="card"><h3>تكرار صفحة محددة</h3><form action="/process" method="POST" enctype="multipart/form-data"><input type="hidden" name="tool" value="duplicate_page"><input type="file" name="pdf" required><input type="number" name="page" placeholder="رقم الصفحة للتكرار" required><button>تكرار الصفحة</button></form></div>
         <div class="card"><h3>عكس ترتيب الصفحات</h3><form action="/process" method="POST" enctype="multipart/form-data"><input type="hidden" name="tool" value="reverse"><input type="file" name="pdf" required><button>عكس الترتيب</button></form></div>
         <div class="card"><h3>استخراج نطاق صفحات</h3><form action="/process" method="POST" enctype="multipart/form-data"><input type="hidden" name="tool" value="extract_range"><input type="file" name="pdf" required><input type="number" name="start" placeholder="من صفحة" required><input type="number" name="end" placeholder="إلى صفحة" required><button>استخراج النطاق</button></form></div>
         <div class="card"><h3>استخراج الصفحة الأولى</h3><form action="/process" method="POST" enctype="multipart/form-data"><input type="hidden" name="tool" value="split_first"><input type="file" name="pdf" required><button>استخراج الصفحة الأولى</button></form></div>
@@ -73,7 +73,7 @@ PRIVACY_TEMPLATE = """
     <div class="box">
         <h1>سياسة الخصوصية</h1>
         <p>نحن في منصة <strong>PDF Pro+</strong> نولي اهتماماً بالغاً لخصوصية زوارنا. لا يتم الاحتفاظ بملفاتك الشخصية أو ملفات الـ PDF المرفوعة على خوادمنا لفترات طويلة، حيث يتم حذفها تلقائياً بعد معالجتها وحفظها على جهازك.</p>
-        <p>كما أننا قد نستعين بشركات إعلانية طرف ثالث (مثل Google AdSense) لعرض الإعلانات، والتي قد تستخدم ملفات تعريف الارتباط (Cookies) لتحسين تجربة المستخدم.</p>
+        <p>كما أننا قد نستعين بشركات إعلانية طرف ثالث (مثل Google AdSense) لعرض الإعلانات.</p>
         <p><a href="/">← العودة إلى رئيسية الأدوات</a></p>
     </div>
 </body>
@@ -97,7 +97,7 @@ ABOUT_TEMPLATE = """
 <body>
     <div class="box">
         <h1>من نحن</h1>
-        <p>منصة <strong>PDF Pro+</strong> هي أداة ويب متكاملة ومصممة لمساعدة المستخدمين على إدارة، تعديل، ومعالجة ملفات الـ PDF بكل سهولة وسرعة وبدون الحاجة لبرامج معقدة.</p>
+        <p>منصة <strong>PDF Pro+</strong> هي أداة ويب متكاملة ومصممة لمساعدة المستخدمين على إدارة، تعديل، ومعالجة ملفات الـ PDF بكل سهولة وسرعة.</p>
         <p>تم تطوير هذه المنصة بكل إتقان بواسطة المطور <strong>صهيب</strong>.</p>
         <p><a href="/">← العودة إلى رئيسية الأدوات</a></p>
     </div>

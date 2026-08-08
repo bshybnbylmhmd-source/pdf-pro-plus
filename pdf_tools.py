@@ -69,10 +69,16 @@ def process_pdf_tool(tool, request_form, request_files, upload_folder):
         writer.add_metadata({'/Title': title})
         out_name = "metadata_updated.pdf"
     elif tool == 'compress_lite':
-        # إعادة حفظ الملف لتقليل التضخم وتنظيف الهيكل
         for page in reader.pages:
             writer.add_page(page)
         out_name = "optimized.pdf"
+    elif tool == 'duplicate_page':
+        dup_idx = int(request_form.get('page', 1)) - 1
+        for idx, page in enumerate(reader.pages):
+            writer.add_page(page)
+            if idx == dup_idx:
+                writer.add_page(page) # تكرار الصفحة المحددة
+        out_name = "page_duplicated.pdf"
     elif tool == 'text':
         text_content = ""
         for page in reader.pages:
