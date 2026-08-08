@@ -53,6 +53,11 @@ def process_pdf_tool(tool, request_form, request_files, upload_folder):
         for idx in range(start, min(end, len(reader.pages))):
             writer.add_page(reader.pages[idx])
         out_name = "extracted_range.pdf"
+    elif tool == 'split_first':
+        # استخراج الصفحة الأولى فقط كملف مستقل
+        if len(reader.pages) > 0:
+            writer.add_page(reader.pages[0])
+        out_name = "split_page_1.pdf"
     elif tool == 'text':
         text_content = ""
         for page in reader.pages:
