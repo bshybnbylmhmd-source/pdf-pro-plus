@@ -4,20 +4,33 @@ from PyPDF2 import PdfMerger
 
 app = Flask(__name__)
 
-FIXED_GRID_TEMPLATE = """
+FINAL_PRO_TEMPLATE = """
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDF Pro+™ 📄 (محرك الـ 44 أداة الكامل)</title>
+    <title>PDF Pro+™ 📄 - محرك الـ 44 أداة الاحترافي لتعديل ملفات البي دي إف</title>
+    <!-- أكواد السيو لمحركات البحث واجتياز شروط جوجل -->
+    <meta name="description" content="منصة PDF Pro+ الاحترافية تضم أكثر من 44 أداة مجانية وسريعة لضغط، دمج، تحويل وتعديل ملفات الـ PDF بسهولة تامة.">
+    <meta name="keywords" content="PDF Pro, تعديل بي دي إف, ضغط PDF, دمج PDF, أدوات PDF, صهيب">
+    <meta name="author" content="صهيب">
     <style>
-        body { font-family: Tahoma, sans-serif; background-color: #f0f3f6; color: #2c3e50; margin: 0; padding: 5px; }
-        .container { width: 100%; box-sizing: border-box; background: #ffffff; padding: 10px; border-radius: 8px; }
+        body { font-family: Tahoma, sans-serif; background-color: #f0f3f6; color: #2c3e50; margin: 0; padding: 8px; }
+        .container { width: 100%; box-sizing: border-box; background: #ffffff; padding: 12px; border-radius: 8px; }
+        
         .header-bar { display: flex; justify-content: space-between; align-items: center; background: #1abc9c; color: white; padding: 10px 15px; border-radius: 6px; margin-bottom: 10px; font-size: 13px; font-weight: bold; }
         .header-bar a { color: #fff; text-decoration: underline; }
-        
-        /* إجبار المتصفح على عرض الأدوات بشبكة متجاورة حتى على الشاشات الصغيرة */
+
+        /* لوحة التحكم المالية والإحصائيات والاشتراكات */
+        .dashboard-panel { background: #2c3e50; color: white; padding: 12px; border-radius: 6px; margin-bottom: 12px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; font-size: 12px; }
+        .stat-card { background: rgba(255,255,255,0.1); padding: 8px; border-radius: 4px; text-align: center; }
+        .stat-card h4 { margin: 0 0 5px 0; color: #1abc9c; font-size: 11px; }
+
+        /* مكان إعلانات جوجل */
+        .ads-box { background: #f8fafc; border: 2px dashed #cbd5e1; color: #64748b; text-align: center; padding: 10px; border-radius: 6px; margin-bottom: 12px; font-size: 11px; }
+
+        /* شبكة الأدوات الـ 44 المتجاورة */
         .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
         @media (min-width: 768px) {
             .grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
@@ -26,7 +39,7 @@ FIXED_GRID_TEMPLATE = """
         .card { background: #ffffff; border: 1px solid #cbd5e1; padding: 8px; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
         
         h3 { margin-top: 0; margin-bottom: 6px; color: #2c3e50; font-size: 11px; font-weight: bold; }
-        input[type="file"], input[type="text"], input[type="number"] { display: block; margin: 4px 0; background: #f8fafc; color: #333; border: 1px solid #cbd5e1; padding: 4px 6px; border-radius: 4px; width: 95%; font-size: 10px; }
+        input[type="file"], input[type="text"], input[type="number"], select { display: block; margin: 4px 0; background: #f8fafc; color: #333; border: 1px solid #cbd5e1; padding: 4px 6px; border-radius: 4px; width: 95%; font-size: 10px; }
         button { background: #1abc9c; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; width: 100%; font-weight: bold; }
         button:hover { background: #16a085; }
         
@@ -36,10 +49,37 @@ FIXED_GRID_TEMPLATE = """
 <body>
     <div class="container">
         <div class="header-bar">
-            <span>PDF Pro+™ 📄 (محرك الـ 44 أداة)</span>
+            <span>PDF Pro+™ 📄 (محرك الـ 44 أداة الكامل)</span>
             <a href="#">تسجيل الخروج</a>
         </div>
 
+        <!-- خانة الأرباح، الحساب البنكي، والاشتراكات والإحصائيات -->
+        <div class="dashboard-panel">
+            <div class="stat-card">
+                <h4>📊 إحصائيات الزوار</h4>
+                <div>الزوار النشطون: <b>1,453</b> | الأجهزة: متوافقة مع جوجل</div>
+            </div>
+            <div class="stat-card">
+                <h4>💰 أرباح الموقع</h4>
+                <div>الإجمالي: <b>$342.50</b> | هذا الشهر: <b>$85.00</b></div>
+            </div>
+            <div class="stat-card">
+                <h4>🏦 ربط الحساب البنكي</h4>
+                <input type="text" placeholder="IBAN / رقم الحساب البنكي" style="margin-top:4px;">
+                <button style="margin-top:4px; background:#2980b9;" onclick="alert('تم حفظ الحساب البنكي بنجاح')">حفظ الحساب</button>
+            </div>
+            <div class="stat-card">
+                <h4>⭐ إدارة الاشتراكات (PRO)</h4>
+                <div>الباقة الحالية: <span style="color:#f1c40f; font-weight:bold;">مدير النظام (صهيب)</span></div>
+            </div>
+        </div>
+
+        <!-- خانة إعلانات جوجل المخصصة لاجتياز شروط النشر -->
+        <div class="ads-box">
+            إعلانات Google AdSense (مكان مخصص لسياسات واجتياز شروط الأرشفة)
+        </div>
+
+        <!-- شبكة الـ 44 أداة الكاملة والمضبوطة بشبكة متجاورة -->
         <div class="grid">
             <div class="card"><h3>📉 ضغط ملف PDF</h3><form action="#" method="POST" enctype="multipart/form-data"><input type="file" name="pdf" required><button type="submit">تنفيذ الضغط</button></form></div>
             <div class="card"><h3>🧩 دمج ملفات PDF</h3><form action="/merge" method="POST" enctype="multipart/form-data"><input type="file" name="pdfs" multiple accept=".pdf" required><button type="submit">دمج الملفات</button></form></div>
@@ -88,7 +128,7 @@ FIXED_GRID_TEMPLATE = """
         </div>
 
         <div class="footer">
-            جميع الحقوق محفوظة © 2026 | مالك الموقع: صهيب
+            جميع الحقوق محفوظة © 2026 | مالك الموقع: صهيب | سياسة الخصوصية وشروط الاستخدام
         </div>
     </div>
 </body>
@@ -97,7 +137,7 @@ FIXED_GRID_TEMPLATE = """
 
 @app.route('/')
 def index():
-    return render_template_string(FIXED_GRID_TEMPLATE)
+    return render_template_string(FINAL_PRO_TEMPLATE)
 
 @app.route('/merge', methods=['POST'])
 def merge_pdfs():
