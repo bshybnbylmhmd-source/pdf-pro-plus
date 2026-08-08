@@ -4,7 +4,7 @@ from PyPDF2 import PdfMerger, PdfReader, PdfWriter
 
 app = Flask(__name__)
 
-ALL_44_TEMPLATE = """
+BRANCHED_GRID_TEMPLATE = """
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -12,27 +12,28 @@ ALL_44_TEMPLATE = """
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PDF Pro+™ 📄 (محرك الـ 44 أداة الكامل)</title>
     <style>
-        body { font-family: Tahoma, sans-serif; background-color: #f4f6f9; color: #333; margin: 0; padding: 10px; }
-        .container { max-width: 1300px; margin: 0 auto; background: #ffffff; padding: 15px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
-        .header-bar { display: flex; justify-content: space-between; align-items: center; background: #2c3e50; color: white; padding: 10px 15px; border-radius: 6px; margin-bottom: 15px; font-size: 14px; }
-        .header-bar a { color: #e74c3c; text-decoration: none; font-weight: bold; }
+        body { font-family: Tahoma, sans-serif; background-color: #f0f3f6; color: #2c3e50; margin: 0; padding: 10px; }
+        .container { max-width: 1400px; margin: 0 auto; background: #ffffff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .header-bar { display: flex; justify-content: space-between; align-items: center; background: #1abc9c; color: white; padding: 12px 20px; border-radius: 8px; margin-bottom: 20px; font-size: 15px; font-weight: bold; }
+        .header-bar a { color: #fff; text-decoration: underline; }
         
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
-        .card { background: #ffffff; border: 1px solid #e1e8ed; padding: 12px; border-radius: 6px; box-shadow: 0 1px 4px rgba(0,0,0,0.04); transition: 0.2s; }
-        .card:hover { border-color: #3498db; box-shadow: 0 3px 8px rgba(52, 152, 219, 0.15); }
+        /* شبكة متشعبة ومنتظمة لجميع الأدوات */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+        .card { background: #ffffff; border: 1px solid #e2e8f0; padding: 14px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.02); transition: all 0.2s ease; }
+        .card:hover { border-color: #1abc9c; box-shadow: 0 5px 15px rgba(26, 188, 156, 0.15); transform: translateY(-2px); }
         
-        h3 { margin-top: 0; margin-bottom: 8px; color: #2c3e50; font-size: 13px; font-weight: bold; }
-        input[type="file"], input[type="text"], input[type="number"] { display: block; margin: 6px 0; background: #f9f9f9; color: #333; border: 1px solid #dcdde1; padding: 5px 8px; border-radius: 4px; width: 93%; font-size: 12px; }
-        button { background: #3498db; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; width: 100%; font-weight: bold; }
-        button:hover { background: #2980b9; }
+        h3 { margin-top: 0; margin-bottom: 10px; color: #2c3e50; font-size: 14px; font-weight: bold; }
+        input[type="file"], input[type="text"], input[type="number"] { display: block; margin: 8px 0; background: #f8fafc; color: #333; border: 1px solid #cbd5e1; padding: 6px 10px; border-radius: 5px; width: 92%; font-size: 12px; }
+        button { background: #1abc9c; color: white; border: none; padding: 7px 14px; border-radius: 5px; cursor: pointer; font-size: 13px; width: 100%; font-weight: bold; transition: background 0.2s; }
+        button:hover { background: #16a085; }
         
-        .footer { text-align: center; margin-top: 20px; color: #7f8c8d; font-size: 12px; border-top: 1px solid #eee; padding-top: 10px; }
+        .footer { text-align: center; margin-top: 30px; color: #7f8c8d; font-size: 13px; border-top: 2px solid #f0f3f6; padding-top: 15px; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header-bar">
-            <span>PDF Pro+™ 📄 (محرك الـ 44 أداة الكامل)</span>
+            <span>PDF Pro+™ 📄 (محرك الـ 44 أداة المتشعب الكامل)</span>
             <a href="#">تسجيل الخروج</a>
         </div>
 
@@ -85,7 +86,7 @@ ALL_44_TEMPLATE = """
 
         <div class="footer">
             جميع الحقوق محفوظة © 2026 | مالك الموقع: صهيب<br>
-            <span style="color: #3498db;">سياسة الخصوصية | شروط الاستخدام | 📊 الزوار: 1453</span><br><br>
+            <span style="color: #1abc9c;">سياسة الخصوصية | شروط الاستخدام | 📊 الزوار: 1453</span><br><br>
             <span style="color: #e67e22;">🌙 الوضع الليلي مفعل</span>
         </div>
     </div>
@@ -95,7 +96,7 @@ ALL_44_TEMPLATE = """
 
 @app.route('/')
 def index():
-    return render_template_string(ALL_44_TEMPLATE)
+    return render_template_string(BRANCHED_GRID_TEMPLATE)
 
 @app.route('/merge', methods=['POST'])
 def merge_pdfs():
