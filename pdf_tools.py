@@ -23,6 +23,16 @@ def process_pdf_tool(tool, request_form, request_files, upload_folder):
             page.rotate(180)
             writer.add_page(page)
         out_name = "rotated_180.pdf"
+    elif tool == 'rotate90':
+        for page in reader.pages:
+            page.rotate(90)
+            writer.add_page(page)
+        out_name = "rotated_90.pdf"
+    elif tool == 'rotate270':
+        for page in reader.pages:
+            page.rotate(270)
+            writer.add_page(page)
+        out_name = "rotated_270.pdf"
     elif tool == 'encrypt':
         pwd = request_form.get('password', '1234')
         for page in reader.pages: writer.add_page(page)
@@ -37,6 +47,12 @@ def process_pdf_tool(tool, request_form, request_files, upload_folder):
         for page in reversed(reader.pages):
             writer.add_page(page)
         out_name = "reversed.pdf"
+    elif tool == 'extract_range':
+        start = int(request_form.get('start', 1)) - 1
+        end = int(request_form.get('end', len(reader.pages)))
+        for idx in range(start, min(end, len(reader.pages))):
+            writer.add_page(reader.pages[idx])
+        out_name = "extracted_range.pdf"
     elif tool == 'text':
         text_content = ""
         for page in reader.pages:

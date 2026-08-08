@@ -27,10 +27,13 @@ TEMPLATE = """
     <h1>PDF Pro+™ 📄 - مالك الموقع: صهيب</h1>
     <div class="grid">
         <div class="card"><h3>دمج PDF</h3><form action="/process" method="POST" enctype="multipart/form-data"><input type="hidden" name="tool" value="merge"><input type="file" name="pdfs" multiple required><button>دمج الملفات</button></form></div>
-        <div class="card"><h3>تدوير 180°</h3><form action="/process" method="POST" enctype="multipart/form-data"><input type="hidden" name="tool" value="rotate180"><input type="file" name="pdf" required><button>تدوير الملف</button></form></div>
+        <div class="card"><h3>تدوير 180°</h3><form action="/process" method="POST" enctype="multipart/form-data"><input type="hidden" name="tool" value="rotate180"><input type="file" name="pdf" required><button>تدوير 180</button></form></div>
+        <div class="card"><h3>تدوير 90°</h3><form action="/process" method="POST" enctype="multipart/form-data"><input type="hidden" name="tool" value="rotate90"><input type="file" name="pdf" required><button>تدوير 90</button></form></div>
+        <div class="card"><h3>تدوير 270°</h3><form action="/process" method="POST" enctype="multipart/form-data"><input type="hidden" name="tool" value="rotate270"><input type="file" name="pdf" required><button>تدوير 270</button></form></div>
         <div class="card"><h3>تشفير بكلمة مرور</h3><form action="/process" method="POST" enctype="multipart/form-data"><input type="hidden" name="tool" value="encrypt"><input type="file" name="pdf" required><input type="text" name="password" placeholder="كلمة المرور" required><button>تشفير الملف</button></form></div>
         <div class="card"><h3>حذف صفحة محددة</h3><form action="/process" method="POST" enctype="multipart/form-data"><input type="hidden" name="tool" value="delete"><input type="file" name="pdf" required><input type="number" name="page" placeholder="رقم الصفحة" required><button>حذف الصفحة</button></form></div>
         <div class="card"><h3>عكس ترتيب الصفحات</h3><form action="/process" method="POST" enctype="multipart/form-data"><input type="hidden" name="tool" value="reverse"><input type="file" name="pdf" required><button>عكس الترتيب</button></form></div>
+        <div class="card"><h3>استخراج نطاق صفحات</h3><form action="/process" method="POST" enctype="multipart/form-data"><input type="hidden" name="tool" value="extract_range"><input type="file" name="pdf" required><input type="number" name="start" placeholder="من صفحة" required><input type="number" name="end" placeholder="إلى صفحة" required><button>استخراج النطاق</button></form></div>
         <div class="card"><h3>استخراج النصوص (.txt)</h3><form action="/process" method="POST" enctype="multipart/form-data"><input type="hidden" name="tool" value="text"><input type="file" name="pdf" required><button>استخراج النص</button></form></div>
     </div>
 </body>
