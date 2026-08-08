@@ -1,6 +1,6 @@
 from flask import Flask, render_template_string, request, send_file
 import os
-from PyPDF2 import PdfMerger
+from PyPDF2 import PdfMerger, PdfReader, PdfWriter
 
 app = Flask(__name__)
 
@@ -16,10 +16,11 @@ FULL_TEMPLATE = """
         .container { max-width: 800px; margin: 0 auto; background: #1e1e1e; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
         h1 { color: #3498db; text-align: center; }
         .header-bar { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; padding-bottom: 15px; margin-bottom: 20px; }
-        .card { background: #2a2a2a; border: 1px solid #3a3a3a; padding: 15px; border-radius: 8px; margin-bottom: 15px; }
-        h3 { margin-top: 0; color: #f1c40f; }
-        input[type="file"] { display: block; margin: 10px 0; background: #333; color: #fff; border: 1px solid #555; padding: 8px; border-radius: 4px; width: 95%; }
-        button { background: #3498db; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 15px; width: 100%; }
+        .grid { display: grid; grid-template-columns: 1fr; gap: 15px; }
+        .card { background: #2a2a2a; border: 1px solid #3a3a3a; padding: 15px; border-radius: 8px; }
+        h3 { margin-top: 0; color: #f1c40f; font-size: 16px; }
+        input[type="file"], input[type="text"], input[type="number"] { display: block; margin: 10px 0; background: #333; color: #fff; border: 1px solid #555; padding: 8px; border-radius: 4px; width: 95%; }
+        button { background: #3498db; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-size: 14px; width: 100%; }
         button:hover { background: #2980b9; }
         .footer { text-align: center; margin-top: 30px; color: #888; font-size: 14px; border-top: 1px solid #333; padding-top: 15px; }
     </style>
@@ -28,15 +29,82 @@ FULL_TEMPLATE = """
     <div class="container">
         <div class="header-bar">
             <span>PDF Pro+™ 📄 (محرك الـ 44 أداة الكامل)</span>
-            <span style="color: #e74c3c;">تسجيل الخروج</span>
+            <span style="color: #e74c3c; cursor: pointer;">تسجيل الخروج</span>
         </div>
-        <div class="card">
-            <h3>🧩 دمج ملفات PDF</h3>
-            <form action="/merge" method="POST" enctype="multipart/form-data">
-                <input type="file" name="pdfs" multiple accept=".pdf" required>
-                <button type="submit">دمج الملفات</button>
-            </form>
+
+        <div class="grid">
+            <!-- 1 -->
+            <div class="card">
+                <h3>📉 ضغط ملف PDF</h3>
+                <form action="#" method="POST" enctype="multipart/form-data">
+                    <input type="file" name="pdf" required><button type="submit">تنفيذ الضغط</button>
+                </form>
+            </div>
+            <!-- 2 -->
+            <div class="card">
+                <h3>🧩 دمج ملفات PDF</h3>
+                <form action="/merge" method="POST" enctype="multipart/form-data">
+                    <input type="file" name="pdfs" multiple accept=".pdf" required><button type="submit">دمج الملفات</button>
+                </form>
+            </div>
+            <!-- 3 -->
+            <div class="card">
+                <h3>🗑️ حذف صفحة محددة</h3>
+                <form action="#" method="POST" enctype="multipart/form-data">
+                    <input type="file" name="pdf" required><input type="number" name="page" placeholder="رقم الصفحة للحذف" required><button type="submit">حذف الصفحة</button>
+                </form>
+            </div>
+            <!-- 4 -->
+            <div class="card">
+                <h3>🔃 تدوير الملف (180°)</h3>
+                <form action="#" method="POST" enctype="multipart/form-data">
+                    <input type="file" name="pdf" required><button type="submit">تدوير 180</button>
+                </form>
+            </div>
+            <!-- 5 -->
+            <div class="card">
+                <h3>🔄 تدوير الملف (90°)</h3>
+                <form action="#" method="POST" enctype="multipart/form-data">
+                    <input type="file" name="pdf" required><button type="submit">تدوير 90</button>
+                </form>
+            </div>
+            <!-- 6 -->
+            <div class="card">
+                <h3>🔄 تدوير الملف (270°)</h3>
+                <form action="#" method="POST" enctype="multipart/form-data">
+                    <input type="file" name="pdf" required><button type="submit">تدوير 270</button>
+                </form>
+            </div>
+            <!-- 7 -->
+            <div class="card">
+                <h3>✂️ استخراج نطاق صفحات</h3>
+                <form action="#" method="POST" enctype="multipart/form-data">
+                    <input type="file" name="pdf" required><input type="text" name="start" placeholder="من"><input type="text" name="end" placeholder="إلى"><button type="submit">استخراج النطاق</button>
+                </form>
+            </div>
+            <!-- 8 -->
+            <div class="card">
+                <h3>🔒 تشفير بكلمة مرور</h3>
+                <form action="#" method="POST" enctype="multipart/form-data">
+                    <input type="file" name="pdf" required><input type="text" name="password" placeholder="كلمة المرور الجديدة" required><button type="submit">تشفير الملف</button>
+                </form>
+            </div>
+            <!-- 9 -->
+            <div class="card">
+                <h3>🔄 عكس ترتيب الصفحات</h3>
+                <form action="#" method="POST" enctype="multipart/form-data">
+                    <input type="file" name="pdf" required><button type="submit">عكس الصفحات</button>
+                </form>
+            </div>
+            <!-- 10 -->
+            <div class="card">
+                <h3>📝 استخراج النصوص (.txt)</h3>
+                <form action="#" method="POST" enctype="multipart/form-data">
+                    <input type="file" name="pdf" required><button type="submit">استخراج النص</button>
+                </form>
+            </div>
         </div>
+
         <div class="footer">
             جميع الحقوق محفوظة © 2026 | مالك الموقع: صهيب<br>
             <span style="color: #3498db;">سياسة الخصوصية | شروط الاستخدام | 📊 الزوار: 1453</span><br><br>
