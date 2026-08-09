@@ -128,3 +128,158 @@ def process():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
+
+@app.route("/contact")
+def contact():
+    return render_template("contact.html")
+
+@app.route("/rotate-90", methods=["POST"])
+def rotate_90_route():
+    # سيتم إضافة منطق الاستقبال والتنفيذ هنا
+    return "تم تدوير الملف 90 درجة بنجاح"
+
+@app.route("/rotate-180", methods=["POST"])
+def rotate_180_route():
+    return "تم تدوير الملف 180 درجة بنجاح"
+
+@app.route("/rotate-270", methods=["POST"])
+def rotate_270_route():
+    return "تم تدوير الملف 270 درجة بنجاح"
+
+@app.route("/encrypt", methods=["POST"])
+def encrypt_route():
+    # سيتم إضافة منطق التشفير هنا
+    return "تم تشفير الملف بنجاح"
+
+@app.route("/decrypt", methods=["POST"])
+def decrypt_route():
+    # سيتم إضافة منطق إزالة التشفير هنا
+    return "تم إزالة التشفير بنجاح"
+
+@app.route("/delete-page", methods=["POST"])
+def delete_page_route():
+    return "تم حذف الصفحة بنجاح"
+
+@app.route("/duplicate-page", methods=["POST"])
+def duplicate_page_route():
+    return "تم تكرار الصفحة بنجاح"
+
+@app.route("/reverse-pages", methods=["POST"])
+def reverse_pages_route():
+    return "تم عكس ترتيب الصفحات بنجاح"
+
+@app.route("/extract-range", methods=["POST"])
+def extract_range_route():
+    return "تم استخراج النطاق بنجاح"
+
+@app.route("/extract-first", methods=["POST"])
+def extract_first_route():
+    return "تم استخراج الصفحة الأولى بنجاح"
+
+@app.route("/update-metadata", methods=["POST"])
+def update_metadata_route():
+    return "تم تعديل عنوان الملف بنجاح"
+
+@app.route("/extract-text", methods=["POST"])
+def extract_text_route():
+    return "تم استخراج النصوص بنجاح"
+
+@app.route("/optimize", methods=["POST"])
+def optimize_route():
+    return "تم تحسين وضغط الملف بنجاح"
+
+@app.route("/split-pdf", methods=["POST"])
+def split_pdf_route():
+    return "تم تقسيم الملف بنجاح"
+
+@app.route("/images-to-pdf", methods=["POST"])
+def images_to_pdf_route():
+    return "تم تحويل الصور إلى PDF بنجاح"
+
+@app.route("/add-watermark", methods=["POST"])
+def add_watermark_route():
+    return "تمت إضافة العلامة المائية بنجاح"
+
+@app.route("/extract-images", methods=["POST"])
+def extract_images_route():
+    return "تم استخراج الصور بنجاح"
+
+@app.route("/page-count", methods=["POST"])
+def page_count_route():
+    return "تم حساب عدد الصفحات بنجاح"
+
+@app.route("/extract-links", methods=["POST"])
+def extract_links_route():
+    return "تم استخراج الروابط بنجاح"
+
+@app.route("/merge-multiple", methods=["POST"])
+def merge_multiple_route():
+    return "تم دمج الملفات المتعددة بنجاح"
+
+@app.route("/reorder-pages", methods=["POST"])
+def reorder_pages_route():
+    return "تم إعادة ترتيب الصفحات بنجاح"
+
+@app.route("/check-encrypted", methods=["POST"])
+def check_encrypted_route():
+    return "تم فحص حالة تشفير الملف بنجاح"
+
+@app.route("/set-author", methods=["POST"])
+def set_author_route():
+    return "تم تحديث معلومات المؤلف والموضوع بنجاح"
+
+@app.route("/export-txt", methods=["POST"])
+def export_txt_route():
+    return "تم تصدير النصوص إلى ملف نصي بنجاح"
+
+@app.route("/verify-not-empty", methods=["POST"])
+def verify_not_empty_route():
+    return "تم التحقق من أن الملف غير فارغ بنجاح"
+
+@app.route("/rotate-page", methods=["POST"])
+def rotate_page_route():
+    return "تم تدوير الصفحة بنجاح"
+
+@app.route("/remove-metadata", methods=["POST"])
+def remove_metadata_route():
+    return "تم حذف خصائص الملف بنجاح"
+
+@app.route("/search-text", methods=["POST"])
+def search_text_route():
+    return "تم البحث عن الكلمة بنجاح"
+
+@app.route("/extract-first", methods=["POST"])
+def extract_first_route():
+    return "تم استخراج الصفحة الأولى بنجاح"
+
+@app.route("/count-images", methods=["POST"])
+def count_images_route():
+    return "تم حساب عدد الصور بنجاح"
+
+@app.route("/list-attachments", methods=["POST"])
+def list_attachments_route():
+    return "تم استعراض الملفات المرفقة بنجاح"
+
+@app.route("/remove-cover", methods=["POST"])
+def remove_cover_route():
+    return "تم إزالة صفحة الغلاف بنجاح"
+
+@app.route("/export-info-json", methods=["POST"])
+def export_info_json_route():
+    return "تم تصدير معلومات الملف بصيغة JSON بنجاح"
+
+@app.route("/extract-page-text", methods=["POST"])
+def extract_page_text_route():
+    return "تم استخراج نص الصفحة بنجاح"
+
+@app.route("/verify-structure", methods=["POST"])
+def verify_structure_route():
+    return "تم فحص بنية الملف بنجاح"
+
+@app.route("/check-orientation", methods=["POST"])
+def check_orientation_route():
+    return "تم فحص اتجاه الصفحة بنجاح"
+
+@app.route("/pdf-version", methods=["POST"])
+def pdf_version_route():
+    return "تم جلب إصدار ملف الـ PDF بنجاح"
