@@ -71,6 +71,12 @@ TEMPLATE = """
         <div class="card"><h3>حساب عدد الصور</h3><form action="/process" method="POST" enctype="multipart/form-data"><input type="hidden" name="tool" value="count_images"><input type="file" name="pdf" required><button>عد الصور</button></form></div>
         <div class="card"><h3>استعراض المرفقات</h3><form action="/process" method="POST" enctype="multipart/form-data"><input type="hidden" name="tool" value="list_attachments"><input type="file" name="pdf" required><button>استعراض</button></form></div>
         <div class="card"><h3>إزالة صفحة الغلاف</h3><form action="/process" method="POST" enctype="multipart/form-data"><input type="hidden" name="tool" value="remove_cover"><input type="file" name="pdf" required><button>إزالة الغلاف</button></form></div>
+        
+        <!-- أدوات أوفيس والضغط المضافة حديثاً -->
+        <div class="card office-card"><h3>تحويل إلى Word 📝</h3><form action="/process" method="POST" enctype="multipart/form-data"><input type="hidden" name="tool" value="to_word"><input type="file" name="pdf" required><button class="office-btn">تحويل لـ Word</button></form></div>
+        <div class="card office-card"><h3>تحويل إلى Excel 📊</h3><form action="/process" method="POST" enctype="multipart/form-data"><input type="hidden" name="tool" value="to_excel"><input type="file" name="pdf" required><button class="office-btn">تحويل لـ Excel</button></form></div>
+        <div class="card office-card"><h3>تحويل إلى PowerPoint 📑</h3><form action="/process" method="POST" enctype="multipart/form-data"><input type="hidden" name="tool" value="to_ppt"><input type="file" name="pdf" required><button class="office-btn">تحويل لـ PPT</button></form></div>
+        <div class="card office-card"><h3>ضغط ملف PDF 🗜️</h3><form action="/process" method="POST" enctype="multipart/form-data"><input type="hidden" name="tool" value="compress_pdf"><input type="file" name="pdf" required><button class="office-btn">ضغط الحجم</button></form></div>
     </div>
     <footer>جميع الحقوق محفوظة © 2026 - صهيب</footer>
 </body>
