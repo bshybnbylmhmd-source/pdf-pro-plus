@@ -1,6 +1,7 @@
 flask==3.0.2
 gunicorn
 pypdf
+PyPDF2
 python-docx
 openpyxl
 python-pptx
