@@ -249,9 +249,6 @@ def search_text_route():
     return "تم البحث عن الكلمة بنجاح"
 
 @app.route("/extract-first", methods=["POST"])
-def extract_first_route():
-    return "تم استخراج الصفحة الأولى بنجاح"
-
 @app.route("/count-images", methods=["POST"])
 def count_images_route():
     return "تم حساب عدد الصور بنجاح"
