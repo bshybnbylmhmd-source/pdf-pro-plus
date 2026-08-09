@@ -155,3 +155,7 @@ def process():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
+
+@app.route('/googlek0LnGlf8RzR41x_da-ekUHAfQ3nLCyoFE_sBNz593Zo.html')
+def google_verify_file():
+    return "google-site-verification: googlek0LnGlf8RzR41x_da-ekUHAfQ3nLCyoFE_sBNz593Zo.html"
