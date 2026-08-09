@@ -68,6 +68,95 @@ def process_pdf_tool(tool, request_form, request_files, upload_folder):
         for page in reader.pages: writer.add_page(page)
         writer.add_metadata({'/Title': title})
         out_name = "metadata_updated.pdf"
+        import os
+from pypdf import PdfReader, PdfWriter
+from docx import Document
+import openpyxl
+from pptx import Presentation
+
+def process_pdf_tool(tool, form, files, upload_folder):
+    # الأدوات الأساسية الموجودة لديك مسبقاً...
+    # ونضيف إليها دوال أوفيس والضغط الجديدة التالية:
+    
+    if tool == 'to_word':
+        pdf_file = files.get('pdf')
+        input_path = os.path.join(upload_folder, pdf_file.filename)
+        pdf_file.save(input_path)
+        
+        reader = PdfReader(input_path)
+        doc = Document()
+        for page in reader.pages:
+            text = page.extract_text()
+            if text:
+                doc.add_paragraph(text)
+        
+        out_name = "converted.docx"
+        output_path = os.path.join(upload_folder, out_name)
+        doc.save(output_path)
+        return out_name
+
+    elif tool == 'to_excel':
+        pdf_file = files.get('pdf')
+        input_path = os.path.join(upload_folder, pdf_file.filename)
+        pdf_file.save(input_path)
+        
+        reader = PdfReader(input_path)
+        wb = openpyxl.Workbook()
+        ws = wb.active
+        ws.title = "Extracted Text"
+        
+        row_num = 1
+        for page in reader.pages:
+            text = page.extract_text()
+            if text:
+                for line in text.split('\n'):
+                    ws.cell(row=row_num, column=1, value=line)
+                    row_num += 1
+        
+        out_name = "converted.xlsx"
+        output_path = os.path.join(upload_folder, out_name)
+        wb.save(output_path)
+        return out_name
+
+    elif tool == 'to_ppt':
+        pdf_file = files.get('pdf')
+        input_path = os.path.join(upload_folder, pdf_file.filename)
+        pdf_file.save(input_path)
+        
+        reader = PdfReader(input_path)
+        prs = Presentation()
+        blank_slide_layout = prs.slide_layouts[6]
+        
+        for page in reader.pages:
+            slide = prs.slides.add_slide(blank_slide_layout)
+            text = page.extract_text()
+            if text:
+                txBox = slide.shapes.add_textbox(100000, 100000, 8000000, 6000000)
+                tf = txBox.text_frame
+                tf.text = text
+                
+        out_name = "converted.pptx"
+        output_path = os.path.join(upload_folder, out_name)
+        prs.save(output_path)
+        return out_name
+
+    elif tool == 'compress_pdf':
+        pdf_file = files.get('pdf')
+        input_path = os.path.join(upload_folder, pdf_file.filename)
+        pdf_file.save(input_path)
+        
+        reader = PdfReader(input_path)
+        writer = PdfWriter()
+        for page in reader.pages:
+            page.compress_content_streams()
+            writer.add_page(page)
+            
+        out_name = "compressed.pdf"
+        output_path = os.path.join(upload_folder, out_name)
+        with open(output_path, "wb") as f:
+            writer.write(f)
+        return out_name
+
     elif tool == 'compress_lite':
         for page in reader.pages:
             writer.add_page(page)
